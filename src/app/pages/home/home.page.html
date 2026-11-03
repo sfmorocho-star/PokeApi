@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Lista de Pokemon</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Spinner mientras carga -->
+  <div *ngIf="loading" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Cargando Pokemones ...</p>
+  </div>
+
+  <!-- Lista de Pokémones -->
+  <ion-list *ngIf="!loading">
+    <ion-item *ngFor="let pokemon of pokemons" [routerLink]="['/detail', pokemon.id || pokemon.name]">
+      <ion-thumbnail slot="start">
+        <img [src]="pokemon.image" [alt]="pokemon.name" />
+      </ion-thumbnail>
+      <ion-label class="ion-text-capitalize">
+        <h2>{{ pokemon.name }}</h2>
+        <p>#{{ pokemon.id }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

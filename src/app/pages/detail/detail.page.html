@@ -1,0 +1,68 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-capitalize">
+      {{ pokemon ? pokemon.name : 'Detalle' }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Spinner mientras carga -->
+  <div *ngIf="loading" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Cargando información del Pokémon...</p>
+  </div>
+
+  <!-- Tarjeta de Detalle -->
+  <ion-card *ngIf="!loading && pokemon" class="ion-text-center">
+    <img 
+      [src]="pokemon.sprites.other?.['official-artwork']?.front_default || pokemon.sprites.front_default" 
+      [alt]="pokemon.name" 
+      style="max-width: 200px; margin: 20px auto 0;" 
+    />
+    
+    <ion-card-header>
+      <ion-card-subtitle>#{{ pokemon.id }}</ion-card-subtitle>
+      <ion-card-title class="ion-text-capitalize">{{ pokemon.name }}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <!-- Tipos -->
+      <div class="ion-margin-bottom">
+        <ion-chip *ngFor="let t of pokemon.types" color="secondary">
+          <ion-label class="ion-text-capitalize">{{ t.type.name }}</ion-label>
+        </ion-chip>
+      </div>
+
+      <!-- Altura y Peso (convertidos a m y kg) -->
+      <ion-list lines="inset">
+        <ion-item>
+          <ion-label><strong>Altura</strong></ion-label>
+          <ion-note slot="end">{{ pokemon.height / 10 }} m</ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label><strong>Peso</strong></ion-label>
+          <ion-note slot="end">{{ pokemon.weight / 10 }} kg</ion-note>
+        </ion-item>
+      </ion-list>
+
+      <!-- Estadísticas Base -->
+      <div class="ion-margin-top ion-text-start">
+        <h3>Estadísticas Base</h3>
+        <ion-list lines="none">
+          <ion-item *ngFor="let s of pokemon.stats">
+            <ion-label class="ion-text-capitalize" style="font-size: 0.9em;">
+              {{ s.stat.name }}
+            </ion-label>
+            <ion-note slot="end" color="dark">
+              <strong>{{ s.base_stat }}</strong>
+            </ion-note>
+          </ion-item>
+        </ion-list>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
